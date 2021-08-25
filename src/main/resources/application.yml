@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    password: Pass1234
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/teazy
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+  liquibase:
+    enabled: false
+    change-log: classpath:liquibase/changelog-master.yml
