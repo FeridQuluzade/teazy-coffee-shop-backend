@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto deleteProduct(Long id) {
         Product product = getProductById(id);
-        productRepository.delete(product);
+        productRepository.deleteById(id);
 
         return productMapper.toProductDto(product);
     }
