@@ -20,5 +20,6 @@ public interface ProductService {
 
     String uploadImage(MultipartFile multipartFile , Long id);
 
+    void deleteProductImage(Long id);
 
 }
