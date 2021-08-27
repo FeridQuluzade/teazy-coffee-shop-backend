@@ -5,6 +5,7 @@ import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Struct;
 import java.util.List;
 
 
@@ -21,6 +22,9 @@ public interface ProductService {
 
     String uploadImage(MultipartFile multipartFile , Long id);
 
+    String updateImage(MultipartFile multipartFile,Long id);
+
+     void deleteFile(String fileName, String folder);
     void deleteProductImage(Long id);
 
     byte [] getFile(String fileName, String folder);
