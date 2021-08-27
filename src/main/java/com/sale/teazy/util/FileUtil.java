@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -43,6 +45,7 @@ public class FileUtil {
     }
 
     public String generateUniqueName(String extension) {
-        return UUID.randomUUID() + "." + extension;
+        Date date= new Date();
+        return date.getTime()+ "." + extension;
     }
 }

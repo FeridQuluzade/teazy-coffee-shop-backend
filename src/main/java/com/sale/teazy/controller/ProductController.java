@@ -3,7 +3,9 @@ package com.sale.teazy.controller;
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import com.sale.teazy.service.ProductService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.List;
 @RequestMapping("api/v1/products")
 public class ProductController {
     private final ProductService productService;
+
+    @Value("${minio.image-folder}")
+    private String imageFolder;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -35,7 +40,7 @@ public class ProductController {
 
     @PostMapping()
     @ApiOperation("Add Product")
-    public ResponseEntity<ProductResponseDto> createProduct( @RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productRequestDto) {
         return ResponseEntity.status(201).body(productService.createProduct(productRequestDto));
     }
 
@@ -55,15 +60,20 @@ public class ProductController {
     @PostMapping("/image/{id}")
     @ApiOperation(value = "Add product file")
     public ResponseEntity<String> createImage(@PathVariable("id") Long id,
-                                              @Valid @RequestParam MultipartFile multipartFile){
-        return ResponseEntity.status(200).body(productService.uploadImage(multipartFile,id));
+                                              @Valid @RequestParam MultipartFile multipartFile) {
+        return ResponseEntity.status(200).body(productService.uploadImage(multipartFile, id));
+    }
+
+    @GetMapping("/image/{fileName}")
+    @ApiOperation(value = "Get Product File")
+    public byte[] getFile(@PathVariable("fileName") String fileName) {
+        return productService.getFile(fileName, imageFolder);
     }
 
     @DeleteMapping("/image/{id}")
-    @ApiOperation(value =  "Delete Product file")
-    public void deleteProductFile( @PathVariable  Long id){
-        productService.deleteProductImage(id);
+    @ApiOperation(value = "Delete Product file")
+    public void  deleteProductFile(@PathVariable Long id) {
+         productService.deleteProductImage(id);
     }
-
 
 }
