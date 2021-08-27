@@ -2,12 +2,15 @@ package com.sale.teazy.controller;
 
 import com.sale.teazy.exception.ApiError;
 import com.sale.teazy.exception.EntityNotFoundException;
+import com.sale.teazy.exception.ExtensionNotAcceptableException;
+import com.sale.teazy.exception.FileCantUploadException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,11 +31,42 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @Value("${error.notFound}")
     private String notFound;
 
+    @Value("${error.extensionNotAcceptable}")
+    private String extensionError;
+
+    @ExceptionHandler(FileCantUploadException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError fileUploadError(final Exception e) {
+        log.error("Api error, {}, message: {}",
+                kv("errorCode", 1001), e.getMessage());
+        return new ApiError(1001, e.getMessage());
+    }
+
+    @ExceptionHandler(ExtensionNotAcceptableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError extensionError(final Exception e) {
+        log.error("Api error, {}, message: {}, {} ",
+                kv("errorCode", 1001), e.getMessage(), extensionError);
+
+        return new ApiError(1001, e.getMessage() + extensionError);
+    }
+
     @Override
-    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
+        log.error("Api error, {}, message: {} ",
+                kv("errorCode", 1011), ex.getMessage());
+        return new ResponseEntity<>(new ApiError(1011, ex.getCause().getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                               HttpHeaders headers,
+                                                               HttpStatus status,
+                                                               WebRequest request) {
         Map<String, String> errors = new HashMap<>();
         var ref = new Object() {
             String fieldName = null;

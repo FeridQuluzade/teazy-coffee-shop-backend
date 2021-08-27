@@ -33,8 +33,6 @@ public class Product {
 
     private Double unitPrice;
 
-
-
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;

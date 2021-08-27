@@ -18,9 +18,9 @@ public class ProductRequestDto {
     @NotNull
     @NotBlank
     private String description;
-    @NotNull
-    private String img;
+
     @Positive
     @NotNull
     private Double unitPrice;
+
 }

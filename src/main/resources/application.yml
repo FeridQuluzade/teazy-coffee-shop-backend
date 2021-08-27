@@ -12,7 +12,7 @@ spring:
     change-log: classpath:liquibase/changelog-master.yml
 
 minio:
-  url: http://172.17.0.2:9000
+  url: http://172.17.0.3:9000
   bucket: teazy
   access-key: minio
   secret-key: minio1234

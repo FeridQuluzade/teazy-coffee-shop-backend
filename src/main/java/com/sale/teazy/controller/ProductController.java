@@ -4,8 +4,10 @@ import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import com.sale.teazy.service.ProductService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -31,9 +33,9 @@ public class ProductController {
         return ResponseEntity.status(200).body(productService.getAllProducts());
     }
 
-    @PostMapping
+    @PostMapping()
     @ApiOperation("Add Product")
-    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
+    public ResponseEntity<ProductResponseDto> createProduct( @RequestBody ProductRequestDto productRequestDto) {
         return ResponseEntity.status(201).body(productService.createProduct(productRequestDto));
     }
 
@@ -48,5 +50,12 @@ public class ProductController {
     @ApiOperation("Delete Product by Id")
     public ResponseEntity<ProductResponseDto> deleteProduct(@PathVariable("id") Long id) {
         return ResponseEntity.status(200).body(productService.deleteProduct(id));
+    }
+
+    @PostMapping("/image/{id}")
+    @ApiOperation(value = "Add product file")
+    public ResponseEntity<String> createImage(@PathVariable("id") Long id,
+                                              @Valid @RequestParam MultipartFile multipartFile){
+        return ResponseEntity.status(200).body(productService.uploadImage(multipartFile,id));
     }
 }
