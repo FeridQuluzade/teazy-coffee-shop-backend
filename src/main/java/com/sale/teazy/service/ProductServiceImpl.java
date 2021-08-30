@@ -86,7 +86,6 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.toProductDto(product);
     }
 
-
     @Override
     @Transactional
     public String uploadImage(MultipartFile multipartFile, Long id) {
@@ -98,6 +97,29 @@ public class ProductServiceImpl implements ProductService {
             return fileName;
         }
         throw new FileCantUploadException(multipartFile.getOriginalFilename());
+    }
+
+    @Override
+    @Transactional
+    public String updateImage(MultipartFile multipartFile, Long id) {
+        log.info("UpdateImage to User started with , {}",
+                kv("partnerId" ,id));
+        Product product= getProductById(id);
+        deleteFile(product.getImg(),imageFolder);
+        String fileName= fileService.uploadImage(multipartFile,imageFolder);
+        product.setImg(fileName);
+        productRepository.save(product);
+        log.info("updateImage to product completed successfully with {}",
+                kv("partnerId", product));
+        return fileName;
+    }
+
+    @Override
+    @Transactional
+    public void deleteFile(String fileName, String folder) {
+        log.info("deleteFile started from Product with {}", kv("fileName", fileName));
+        fileService.deleteFile(fileName, folder);
+        log.info("deleteFile completed successfully from Product with {} ", kv("fileName", fileName));
     }
 
     @Override
