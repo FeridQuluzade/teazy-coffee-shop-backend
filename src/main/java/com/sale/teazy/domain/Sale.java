@@ -26,6 +26,7 @@ public class Sale {
     private Double price;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private SaleType saleType;
+    private Double commissionPrice;
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;

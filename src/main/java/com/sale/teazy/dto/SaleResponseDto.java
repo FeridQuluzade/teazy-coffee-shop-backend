@@ -15,6 +15,7 @@ public class SaleResponseDto {
     private Long productId;
     private Long amount;
     private Double price;
+    private Double commissionPrice;
     private Long saleType;
 
 }
