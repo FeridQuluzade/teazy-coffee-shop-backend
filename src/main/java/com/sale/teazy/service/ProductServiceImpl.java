@@ -7,6 +7,9 @@ import com.sale.teazy.exception.EntityNotFoundException;
 import com.sale.teazy.exception.FileCantUploadException;
 import com.sale.teazy.mapper.ProductMapper;
 import com.sale.teazy.repository.ProductRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,15 +26,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final FileServiceImpl fileService;
-    @Value("${minio.image-folder}")
-    private String imageFolder;
+    private final String imageFolder;
 
     public ProductServiceImpl(ProductRepository productRepository,
                               ProductMapper productMapper,
-                              FileServiceImpl fileService) {
+                              FileServiceImpl fileService,
+                              @Value("${minio.image-folder}") String imageFolder) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
         this.fileService = fileService;
+        this.imageFolder = imageFolder;
     }
 
     protected Product getProductById(Long id) {
@@ -103,10 +107,10 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public String updateImage(MultipartFile multipartFile, Long id) {
         log.info("UpdateImage to User started with , {}",
-                kv("partnerId" ,id));
-        Product product= getProductById(id);
-        deleteFile(product.getImg(),imageFolder);
-        String fileName= fileService.uploadImage(multipartFile,imageFolder);
+                kv("partnerId", id));
+        Product product = getProductById(id);
+        deleteFile(product.getImg(), imageFolder);
+        String fileName = fileService.uploadImage(multipartFile, imageFolder);
         product.setImg(fileName);
         productRepository.save(product);
         log.info("updateImage to product completed successfully with {}",
@@ -124,19 +128,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductImage(Long id) {
-        log.info("delete product image started from Product with {}" , kv("id",id));
+        log.info("delete product image started from Product with {}", kv("id", id));
         Product product = getProductById(id);
-        if (product.getImg() != null){
-            fileService.deleteFile(product.getImg(),imageFolder);
+        if (product.getImg() != null) {
+            fileService.deleteFile(product.getImg(), imageFolder);
             product.setImg(null);
             productRepository.save(product);
         }
-        log.info("deleteProductImage completed successfully from Product with {}",kv("id",id));
+        log.info("deleteProductImage completed successfully from Product with {}", kv("id", id));
     }
 
     @Override
     public byte[] getFile(String fileName, String folder) {
         log.info("getFile started with {} ", kv("fileName", fileName));
-        return fileService.getFile(fileName,folder);
+        return fileService.getFile(fileName, folder);
     }
 }

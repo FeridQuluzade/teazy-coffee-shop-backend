@@ -3,11 +3,9 @@ package com.sale.teazy.controller;
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import com.sale.teazy.service.ProductService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,7 +18,6 @@ import java.util.List;
 @Slf4j
 public class ProductController {
     private final ProductService productService;
-
     @Value("${minio.image-folder}")
     private String imageFolder;
 
@@ -69,8 +66,7 @@ public class ProductController {
     @PutMapping("image/{id}")
     @ApiOperation(value =  "Update Product File")
     public ResponseEntity<String> updateImage(@PathVariable("id") Long id,
-                                                @RequestParam MultipartFile multipartFile){
-        log.info("Updating proccess starting");
+                                              @Valid  @RequestParam MultipartFile multipartFile){
         return  ResponseEntity.status(200).body(productService.updateImage(multipartFile,id));
     }
 

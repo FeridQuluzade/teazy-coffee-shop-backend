@@ -3,7 +3,6 @@ package com.sale.teazy.controller;
 import com.sale.teazy.dto.SaleRequestDto;
 import com.sale.teazy.dto.SaleResponseDto;
 import com.sale.teazy.service.SaleService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
