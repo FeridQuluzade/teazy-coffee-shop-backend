@@ -1,7 +1,5 @@
 package com.sale.teazy.mapper;
-
 import com.sale.teazy.domain.Product;
-
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import org.mapstruct.Mapper;

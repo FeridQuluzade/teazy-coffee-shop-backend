@@ -24,7 +24,7 @@ public class SaleRequestDto {
     private Long amount;
     @NotNull
     @NotBlank
-    private SaleType saleType;
+    private Long saleType;
 
     private MultipartFile multipartFile;
 }
