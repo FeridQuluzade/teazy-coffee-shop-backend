@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Sales Table
+      author: Ferid Quluzade
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: "fk_products"
+                    references: products(id)
+              - column:
+                  name: sale_type_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: "fk_sale_type"
+                    references: sale_types(id)
+              - column:
+                  name: price
+                  type: float8
+              - column:
+                  name: amount
+                  type: bigint
+              - column:
+                  name: sale_type
+                  type: varchar(12)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+            tableName: sales
