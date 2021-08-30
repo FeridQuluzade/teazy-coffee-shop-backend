@@ -72,7 +72,7 @@ public class SaleTypeServiceImpl implements SaleTypeService {
     }
 
     @Override
-    public List<SaleTypeResponseDto> getAllSaleTypes() {
+    public List<SaleTypeResponseDto> findAllSaleTypes() {
         return saleTypeMapper.toSaleResponseDtoList(saleTypeRepository.findAll());
     }
 }
