@@ -17,4 +17,13 @@ databaseChangeLog:
               - column:
                   name: sale_type
                   type: varchar(12)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                   name: updated_at
+                   type: timestamp
+              - column:
+                  name: deleted_at
+                  type: timestamp
             tableName: sale_types
