@@ -23,3 +23,8 @@ file:
   upload:
     acceptableVideoExtensions: mp4,mov,avi,wmv
     acceptableImageExtensions: jpg,png,jpeg
+
+img:
+  width: 2560
+  height: 1000
+  divide: 3
