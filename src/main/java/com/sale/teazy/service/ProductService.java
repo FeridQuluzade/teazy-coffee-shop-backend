@@ -1,5 +1,6 @@
 package com.sale.teazy.service;
 
+import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,5 +22,7 @@ public interface ProductService {
     String uploadImage(MultipartFile multipartFile , Long id);
 
     void deleteProductImage(Long id);
+
+    byte [] getFile(String fileName, String folder);
 
 }

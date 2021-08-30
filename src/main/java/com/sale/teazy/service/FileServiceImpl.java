@@ -40,8 +40,7 @@ public class FileServiceImpl implements FileService {
     @SneakyThrows
     public byte[] getFile(String fileName, String folder) {
         String objectName = folder + fileName;
-        GetObjectArgs minioRequest = GetObjectArgs.builder().bucket(bucketName)
-                .object(objectName).build();
+        GetObjectArgs minioRequest = GetObjectArgs.builder().bucket(bucketName).object(objectName).build();
         byte[] bytes = null;
         try {
             bytes = minioClient.getObject(minioRequest).readAllBytes();

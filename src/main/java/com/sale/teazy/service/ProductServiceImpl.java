@@ -111,4 +111,10 @@ public class ProductServiceImpl implements ProductService {
         }
         log.info("deleteProductImage completed successfully from Product with {}",kv("id",id));
     }
+
+    @Override
+    public byte[] getFile(String fileName, String folder) {
+        log.info("getFile started with {} ", kv("fileName", fileName));
+        return fileService.getFile(fileName,folder);
+    }
 }
