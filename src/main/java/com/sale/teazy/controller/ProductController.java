@@ -58,4 +58,12 @@ public class ProductController {
                                               @Valid @RequestParam MultipartFile multipartFile){
         return ResponseEntity.status(200).body(productService.uploadImage(multipartFile,id));
     }
+
+    @DeleteMapping("/image/{id}")
+    @ApiOperation(value =  "Delete Product file")
+    public void deleteProductFile( @PathVariable  Long id){
+        productService.deleteProductImage(id);
+    }
+
+
 }

@@ -99,4 +99,16 @@ public class ProductServiceImpl implements ProductService {
         }
         throw new FileCantUploadException(multipartFile.getOriginalFilename());
     }
+
+    @Override
+    public void deleteProductImage(Long id) {
+        log.info("delete product image started from Product with {}" , kv("id",id));
+        Product product = getProductById(id);
+        if (product.getImg() != null){
+            fileService.deleteFile(product.getImg(),imageFolder);
+            product.setImg(null);
+            productRepository.save(product);
+        }
+        log.info("deleteProductImage completed successfully from Product with {}",kv("id",id));
+    }
 }
