@@ -10,3 +10,16 @@ spring:
   liquibase:
     enabled: false
     change-log: classpath:liquibase/changelog-master.yml
+
+minio:
+  url: http://172.17.0.2:9000
+  bucket: teazy
+  access-key: minio
+  secret-key: minio1234
+  image-folder: profpic/
+  video-folder: video/
+
+file:
+  upload:
+    acceptableVideoExtensions: mp4,mov,avi,wmv
+    acceptableImageExtensions: jpg,png,jpeg

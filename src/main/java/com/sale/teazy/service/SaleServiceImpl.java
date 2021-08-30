@@ -58,6 +58,7 @@ public class SaleServiceImpl implements SaleService {
         sale.setSaleType(saleRequestDto.getSaleType());
         sale.setAmount(saleRequestDto.getAmount());
         sale.setPrice(saleRequestDto.getAmount() * product.getUnitPrice());
+        //sale.setProductId();
         //TODO:sale product idsni deyismek
         saleRepository.save(sale);
         return saleMapper.toSaleDto(sale);
