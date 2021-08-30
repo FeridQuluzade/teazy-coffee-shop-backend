@@ -4,11 +4,17 @@ import com.sale.teazy.domain.Product;
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import com.sale.teazy.exception.EntityNotFoundException;
+import com.sale.teazy.exception.FileCantUploadException;
 import com.sale.teazy.mapper.ProductMapper;
 import com.sale.teazy.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import static net.logstash.logback.argument.StructuredArguments.kv;
+
 import java.util.List;
 
 @Service
@@ -16,36 +22,41 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final FileServiceImpl fileService;
+    @Value("${minio.image-folder}")
+    private String imageFolder;
 
     public ProductServiceImpl(ProductRepository productRepository,
-                              ProductMapper productMapper) {
+                              ProductMapper productMapper,
+                              FileServiceImpl fileService) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.fileService = fileService;
     }
 
     protected Product getProductById(Long id) {
-        log.info("product findById started with : {}", kv("id",id));
+        log.info("product findById started with : {}", kv("id", id));
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(Product.class, id));
     }
 
     @Override
-    public ProductResponseDto createProduct(ProductRequestDto productCreateDto) {
-        log.info("Product create started with : {}" , kv("productCreateDto",productCreateDto));
-
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) {
+        log.info("Product create started with : {}", kv("productCreateDto", productRequestDto));
         Product product = productRepository
                 .save(productMapper
-                        .toProductEntity(productCreateDto));
-        ProductResponseDto productResponseDto= productMapper.toProductDto(product);
+                        .toProductEntity(productRequestDto));
 
-        log.info(" created Product with : {}" , kv("productResponseDto",productResponseDto));
+        productRepository.save(product);
+        ProductResponseDto productResponseDto = productMapper.toProductDto(product);
+
+        log.info(" created Product with : {}", kv("productResponseDto", productResponseDto));
 
         return productResponseDto;
     }
 
     @Override
     public ProductResponseDto findProductById(Long id) {
-
         return productMapper
                 .toProductDto(getProductById(id));
     }
@@ -73,5 +84,19 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
 
         return productMapper.toProductDto(product);
+    }
+
+
+    @Override
+    @Transactional
+    public String uploadImage(MultipartFile multipartFile, Long id) {
+        Product product = getProductById(id);
+        if (product.getImg() == null) {
+            String fileName = fileService.uploadImage(multipartFile, imageFolder);
+            product.setImg(fileName);
+            productRepository.save(product);
+            return fileName;
+        }
+        throw new FileCantUploadException(multipartFile.getOriginalFilename());
     }
 }

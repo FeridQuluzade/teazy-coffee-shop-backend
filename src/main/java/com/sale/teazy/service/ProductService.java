@@ -2,6 +2,7 @@ package com.sale.teazy.service;
 
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface ProductService {
     ProductResponseDto deleteProduct(Long id);
 
     List<ProductResponseDto> getAllProducts();
+
+    String uploadImage(MultipartFile multipartFile , Long id);
+
 
 }
