@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class SaleTypeController {
 
     @PostMapping
     @ApiOperation("Add saleType ")
-    public ResponseEntity<SaleTypeResponseDto> createSaleType(@RequestBody SaleTypeRequestDto saleRequestDto) {
+    public ResponseEntity<SaleTypeResponseDto> createSaleType(@RequestBody @Valid SaleTypeRequestDto saleRequestDto) {
         return ResponseEntity.status(201).body(saleTypeService.createSaleType(saleRequestDto));
     }
 
@@ -46,7 +47,7 @@ public class SaleTypeController {
     @PutMapping("/{id]")
     @ApiOperation("Edit saleType By Id")
     public ResponseEntity<SaleTypeResponseDto> editSaleTypeById(@PathVariable("id") Long id,
-                                                            @RequestBody SaleTypeRequestDto saleTypeRequestDto) {
+                                                         @Valid   @RequestBody SaleTypeRequestDto saleTypeRequestDto) {
         return ResponseEntity.status(200).body(saleTypeService.updateSaleType(saleTypeRequestDto, id));
     }
 
