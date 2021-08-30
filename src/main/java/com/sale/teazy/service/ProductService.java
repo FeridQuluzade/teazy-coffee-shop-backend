@@ -1,11 +1,9 @@
 package com.sale.teazy.service;
 
-import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import com.sale.teazy.dto.ProductRequestDto;
 import com.sale.teazy.dto.ProductResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Struct;
 import java.util.List;
 
 
