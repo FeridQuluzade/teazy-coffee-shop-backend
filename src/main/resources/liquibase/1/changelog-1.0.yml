@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: Create Products table
+      author: Ferid Quluzade
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(40)
+              - column:
+                  name: description
+                  type: varchar(40)
+              - column:
+                  name: unit_price
+                  type: float8
+              - column:
+                  name: img
+                  type: varchar(64)
+              - column:
+                  name: created_at
+                  type: timestamp
+              - column:
+                  name: updated_at
+                  type: timestamp
+              - column:
+                  name: deleted_at
+                  type: timestamp
+            tableName: products

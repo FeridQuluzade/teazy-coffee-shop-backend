@@ -5,10 +5,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/teazy
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    generate-ddl: true
+      ddl-auto: none
+    generate-ddl: false
   liquibase:
-    enabled: false
+    enabled: true
     change-log: classpath:liquibase/changelog-master.yml
 
 minio:
