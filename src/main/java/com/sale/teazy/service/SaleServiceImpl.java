@@ -2,30 +2,41 @@ package com.sale.teazy.service;
 
 import com.sale.teazy.domain.Product;
 import com.sale.teazy.domain.Sale;
-import com.sale.teazy.dto.*;
+import com.sale.teazy.dto.ProductResponseDto;
+import com.sale.teazy.dto.SaleRequestDto;
+import com.sale.teazy.dto.SaleResponseDto;
+import com.sale.teazy.dto.SaleTypeResponseDto;
 import com.sale.teazy.exception.EntityNotFoundException;
 import com.sale.teazy.mapper.SaleMapper;
 import com.sale.teazy.repository.SaleRepository;
+import com.sale.teazy.util.DateUtil;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SaleServiceImpl implements SaleService {
     private final ProductServiceImpl productService;
     private final SaleTypeService saleTypeService;
+    private final DateUtil dateUtil;
     private final SaleRepository saleRepository;
     private final SaleMapper saleMapper;
 
     public SaleServiceImpl(SaleRepository saleRepository,
                            SaleMapper saleMapper,
                            ProductServiceImpl productService,
-                           SaleTypeService saleTypeService) {
+                           SaleTypeService saleTypeService,
+                           DateUtil dateUtil) {
         this.saleRepository = saleRepository;
         this.saleMapper = saleMapper;
         this.productService = productService;
         this.saleTypeService = saleTypeService;
+        this.dateUtil = dateUtil;
     }
 
     protected Sale getSaleById(Long id) {
@@ -36,9 +47,10 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public List<SaleResponseDto> createSale(List<SaleRequestDto> saleRequestDto) {
-        List<SaleResponseDto> saleResponseDtos = new ArrayList<>();
+        List<Sale> arr = new ArrayList<>();
 
         for (SaleRequestDto s : saleRequestDto) {
+
             ProductResponseDto product = productService.findProductById(s.getProductId());
             SaleTypeResponseDto saleType = saleTypeService.findSaleTypeById(s.getSaleType());
 
@@ -51,10 +63,11 @@ public class SaleServiceImpl implements SaleService {
                                     * (nonAmountSale.getAmount()));
             nonAmountSale.setSaleTypeValue(saleType.getSaleType());
 
-            saleResponseDtos.add(saleMapper.toSaleDto(saleRepository.save(nonAmountSale)));
+            arr.add(nonAmountSale);
         }
+        saleRepository.saveAll(arr);
 
-        return saleResponseDtos;
+        return saleMapper.toSaleEntity(arr);
     }
 
     @Override
@@ -99,5 +112,15 @@ public class SaleServiceImpl implements SaleService {
             saleResponseDtoList.add(saleResponseDto);
         }
         return saleResponseDtoList;
+    }
+
+    @Override
+    @SneakyThrows
+    public List<SaleResponseDto> showSales(String startDate, String endDate)  {
+        List<LocalDateTime> dates=dateUtil.getDateIfAcceptable(startDate,endDate);
+        if (!saleMapper.toSaleEntity(saleRepository.findByCreatedAtBetween(dates.get(0), dates.get(1))).isEmpty()){
+            return saleMapper.toSaleEntity(saleRepository.findByCreatedAtBetween(dates.get(0), dates.get(1)));
+        }
+        else throw new EntityNotFoundException(Sale.class);
     }
 }

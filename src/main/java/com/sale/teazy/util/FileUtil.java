@@ -2,6 +2,7 @@ package com.sale.teazy.util;
 
 import com.sale.teazy.exception.ExtensionNotAcceptableException;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.UtilityClass;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,9 +35,6 @@ public class FileUtil {
         this.divide = divide;
         this.bucketName = bucketName;
     }
-
-
-
 
     private boolean isExtensionAcceptable(String extension, String mediaType) {
         if (mediaType.equals("image")) {
