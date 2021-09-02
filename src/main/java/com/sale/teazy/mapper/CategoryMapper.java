@@ -3,7 +3,6 @@ package com.sale.teazy.mapper;
 import com.sale.teazy.domain.Category;
 import com.sale.teazy.dto.CategoryRequestDto;
 import com.sale.teazy.dto.CategoryResponseDto;
-import com.sale.teazy.dto.ProductResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -18,5 +17,7 @@ public interface CategoryMapper {
     Category toCategoryEntity(CategoryRequestDto categoryRequestDto);
 
     List<Category> toCategoryEntityList(List<CategoryRequestDto> categoryRequestDtoList);
+
+    List<CategoryResponseDto> toCategoryDtoList(List<Category> categories);
 
 }

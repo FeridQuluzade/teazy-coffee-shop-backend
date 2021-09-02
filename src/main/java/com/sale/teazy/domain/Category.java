@@ -1,8 +1,12 @@
 package com.sale.teazy.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Setter
@@ -19,4 +23,11 @@ public class Category {
 
     private String title;
 
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    private LocalDateTime deleteAt;
 }
