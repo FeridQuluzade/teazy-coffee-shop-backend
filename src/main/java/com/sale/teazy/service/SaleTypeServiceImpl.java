@@ -1,5 +1,6 @@
 package com.sale.teazy.service;
 
+import com.sale.teazy.domain.Sale;
 import com.sale.teazy.domain.SaleType;
 import com.sale.teazy.dto.SaleTypeRequestDto;
 import com.sale.teazy.dto.SaleTypeResponseDto;
@@ -73,6 +74,10 @@ public class SaleTypeServiceImpl implements SaleTypeService {
 
     @Override
     public List<SaleTypeResponseDto> findAllSaleTypes() {
-        return saleTypeMapper.toSaleResponseDtoList(saleTypeRepository.findAll());
+        if (!saleTypeMapper.toSaleResponseDtoList(saleTypeRepository.findAll()).isEmpty()){
+            return saleTypeMapper.toSaleResponseDtoList(saleTypeRepository.findAll());
+        }else {
+            throw  new EntityNotFoundException(Sale.class);
+        }
     }
 }
