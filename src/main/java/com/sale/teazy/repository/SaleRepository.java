@@ -13,5 +13,7 @@ import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
     List<Sale> findByProductId(@Param("productId") Product productId);
+
     List<Sale> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+
 }
