@@ -4,13 +4,11 @@ import com.sale.teazy.dto.SaleRequestDto;
 import com.sale.teazy.dto.SaleResponseDto;
 import com.sale.teazy.service.SaleService;
 import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,7 +26,7 @@ public class SaleController {
         return ResponseEntity.status(200).body(saleService.findSaleById(id));
     }
 
-    @GetMapping
+    @GetMapping("/product/{id}")
     @ApiOperation("Find sales list by Product id")
     public ResponseEntity<List<SaleResponseDto>> findSalesListByProductId(@RequestParam("productId") Long productId) {
         return ResponseEntity.status(200).body(saleService.findSalesProductId(productId));
