@@ -16,7 +16,7 @@ public interface SaleTypeService {
 
   SaleTypeResponseDto deleteSaleType(Long id);
 
-  List<SaleTypeResponseDto > getAllSaleTypes();
+  List<SaleTypeResponseDto > findAllSaleTypes();
 
 
 
