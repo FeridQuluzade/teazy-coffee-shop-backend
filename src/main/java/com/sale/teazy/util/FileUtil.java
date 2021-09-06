@@ -11,7 +11,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-
 public class FileUtil {
     public final String VIDEO_MEDIA_TYPE = "video";
     public final String IMAGE_MEDIA_TYPE = "image";

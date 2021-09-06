@@ -3,6 +3,7 @@ package com.sale.teazy.domain;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,12 +19,12 @@ public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     private Product productId;
     private Long amount;
     private Double price;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private SaleType saleType;
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
