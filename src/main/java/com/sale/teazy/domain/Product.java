@@ -22,16 +22,12 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE products SET deleted_at= now() WHERE id=?")
 @Where(clause = "deleted_at is null")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-
     private String description;
     private String img;
-
     private Double unitPrice;
 
     @CreationTimestamp
@@ -40,8 +36,5 @@ public class Product {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
     private LocalDateTime deletedAt;
-
-
 }
