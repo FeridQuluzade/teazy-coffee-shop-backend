@@ -55,7 +55,7 @@ public class SaleServiceImpl implements SaleService {
     public SaleResponseDto updateSale(SaleRequestDto saleRequestDto, Long id) {
         ProductResponseDto product = productService.findProductById(saleRequestDto.getProductId());
         Sale sale = getSaleById(id);
-        sale.setSaleType(saleRequestDto.getSaleType());
+//        sale.setSaleType(saleRequestDto.getSaleType());
         sale.setAmount(saleRequestDto.getAmount());
         sale.setPrice(saleRequestDto.getAmount() * product.getUnitPrice());
         //sale.setProductId();

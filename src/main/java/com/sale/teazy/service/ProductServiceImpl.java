@@ -7,18 +7,15 @@ import com.sale.teazy.exception.EntityNotFoundException;
 import com.sale.teazy.exception.FileCantUploadException;
 import com.sale.teazy.mapper.ProductMapper;
 import com.sale.teazy.repository.ProductRepository;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import static net.logstash.logback.argument.StructuredArguments.kv;
-
 import java.util.List;
+
+import static net.logstash.logback.argument.StructuredArguments.kv;
 
 @Service
 @Slf4j
@@ -51,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
                 .save(productMapper
                         .toProductEntity(productRequestDto));
 
-        productRepository.save(product);
+//        productRepository.save(product);
         ProductResponseDto productResponseDto = productMapper.toProductDto(product);
 
         log.info(" created Product with : {}", kv("productResponseDto", productResponseDto));
