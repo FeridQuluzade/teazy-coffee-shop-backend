@@ -12,6 +12,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @Mapper(unmappedSourcePolicy = ReportingPolicy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         componentModel = "spring",
@@ -27,6 +29,8 @@ public abstract class SaleMapper {
     @Mapping(target = "productId", source = "productId")
     public abstract Sale toSaleEntity(SaleRequestDto saleRequestDto);
 
+
+    public abstract List<SaleResponseDto> toSaleEntity(List<Sale> saleResponseDtos);
     protected Product fromLongToProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow();
     }

@@ -1,9 +1,6 @@
 package com.sale.teazy.controller;
 
-import com.sale.teazy.exception.ApiError;
-import com.sale.teazy.exception.EntityNotFoundException;
-import com.sale.teazy.exception.ExtensionNotAcceptableException;
-import com.sale.teazy.exception.FileCantUploadException;
+import com.sale.teazy.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -50,6 +47,13 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
         return new ApiError(1001, e.getMessage() + extensionError);
     }
+
+    @ExceptionHandler(DateNotParsingException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError dateParsingError(final Exception e) {
+        return new ApiError(1001, e.getMessage());
+    }
+
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
