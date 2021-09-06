@@ -49,6 +49,7 @@ public class SaleServiceImpl implements SaleService {
                     .setCommissionPrice(
                             (product.getUnitPrice() * (100 + saleType.getCommission()) / 100)
                                     * (nonAmountSale.getAmount()));
+            nonAmountSale.setSaleTypeValue(saleType.getSaleType());
 
             saleResponseDtos.add(saleMapper.toSaleDto(saleRepository.save(nonAmountSale)));
         }

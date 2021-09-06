@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE saleTypes SET deleted_at= now() WHERE id=?")
+@SQLDelete(sql = "UPDATE sale_types SET deleted_at= now() WHERE id=?")
 @Where(clause = "deleted_at is null")
 public class SaleType {
     @Id

@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: Create Sales Table
+      id: Create SaleType table
       author: Ferid Quluzade
       changes:
         - createTable:
@@ -12,17 +12,8 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: product_id
-                  type: bigint
-                  constraints:
-                    foreignKeyName: "fk_products"
-                    references: products(id)
-              - column:
-                  name: price
+                  name: commission
                   type: float8
-              - column:
-                  name: amount
-                  type: bigint
               - column:
                   name: sale_type
                   type: varchar(12)
@@ -30,6 +21,9 @@ databaseChangeLog:
                   name: created_at
                   type: timestamp
               - column:
-                  name: updated_at
+                   name: updated_at
+                   type: timestamp
+              - column:
+                  name: deleted_at
                   type: timestamp
-            tableName: sales
+            tableName: sale_types
