@@ -42,7 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponseDto> findAllCategory() {
-        return categoryMapper.toCategoryDtoList(categoryRepository.findAll());
+        if (!categoryMapper.toCategoryDtoList(categoryRepository.findAll()).isEmpty()){
+            return categoryMapper.toCategoryDtoList(categoryRepository.findAll());
+        }else throw  new EntityNotFoundException(Category.class);
     }
 
     @Override
